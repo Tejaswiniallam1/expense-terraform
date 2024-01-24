@@ -120,7 +120,7 @@ resource "aws_subnet" "app" {
   availability_zone = element(var.az, count.index)
 
   tags = {
-    Name = "web-subnet-${count.index + 1}"
+    Name = "app-subnet-${count.index + 1}"
   }
 }
 
