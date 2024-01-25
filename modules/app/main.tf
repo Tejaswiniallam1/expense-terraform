@@ -40,11 +40,12 @@ resource "aws_launch_template" "main" {
 }
 
 resource "aws_autoscaling_group" "main" {
-  name               = "${local.name}-asg"
-  availability_zones = ["us-east-1a"]
-  desired_capacity   = var.instance_capacity
-  max_size           = var.instance_capacity # TBD, THis we will fine tune after autoscaling
-  min_size           = var.instance_capacity
+  name                = "${local.name}-asg"
+  availability_zones  = ["us-east-1a"]
+  desired_capacity    = var.instance_capacity
+  max_size            = var.instance_capacity # TBD, THis we will fine tune after autoscaling
+  min_size            = var.instance_capacity
+  vpc_zone_identifier = var.vpc_zone_identifier
 
   launch_template {
     id      = aws_launch_template.main.id
