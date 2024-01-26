@@ -102,12 +102,13 @@ module "public-alb" {
   internal       = false
   sg_cidr_blocks = ["0.0.0.0/0"]
 
-  project_name   = var.project_name
-  env            = var.env
-  acm_arn        = var.acm_arn
+  project_name = var.project_name
+  env          = var.env
+  acm_arn      = var.acm_arn
 
-  subnets        = module.vpc.public_subnets_ids
-  vpc_id         = module.vpc.vpc_id
+  subnets          = module.vpc.public_subnets_ids
+  vpc_id           = module.vpc.vpc_id
+  target_group_arn = module.frontend.target_group_arn
 }
 
 module "private-alb" {
@@ -117,11 +118,12 @@ module "private-alb" {
   internal       = true
   sg_cidr_blocks = var.web_subnets_cidr
 
-  project_name   = var.project_name
-  env            = var.env
-  acm_arn        = var.acm_arn
+  project_name = var.project_name
+  env          = var.env
+  acm_arn      = var.acm_arn
 
-  subnets        = module.vpc.app_subnets_ids
-  vpc_id         = module.vpc.vpc_id
+  subnets          = module.vpc.app_subnets_ids
+  vpc_id           = module.vpc.vpc_id
+  target_group_arn = module.backend.target_group_arn
 }
 
