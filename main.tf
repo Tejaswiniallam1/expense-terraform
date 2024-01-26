@@ -106,7 +106,7 @@ module "public-alb" {
   env            = var.env
 
   subnets        = module.vpc.public_subnets_ids
-  vpc_id         = module.vpc
+  vpc_id         = module.vpc.vpc_id
 }
 
 module "private-alb" {
@@ -120,6 +120,6 @@ module "private-alb" {
   env            = var.env
 
   subnets        = module.vpc.app_subnets_ids
-  vpc_id         = module.vpc
+  vpc_id         = module.vpc.vpc_id
 }
 
