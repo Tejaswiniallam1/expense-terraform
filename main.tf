@@ -101,29 +101,35 @@ module "public-alb" {
   alb_name       = "public"
   internal       = false
   sg_cidr_blocks = ["0.0.0.0/0"]
+  dns_name       = "frontend"
 
   project_name = var.project_name
   env          = var.env
   acm_arn      = var.acm_arn
+  zone_id      = var.zone_id
 
   subnets          = module.vpc.public_subnets_ids
   vpc_id           = module.vpc.vpc_id
   target_group_arn = module.frontend.target_group_arn
+
 }
 
 module "private-alb" {
   source = "./modules/alb"
 
-  alb_name       = "private"
-  internal       = true
-  sg_cidr_blocks = var.web_subnets_cidr
+  alb_name = "private"
+  internal = true
+  dns_name = "backend"
 
-  project_name = var.project_name
-  env          = var.env
-  acm_arn      = var.acm_arn
+  sg_cidr_blocks = var.web_subnets_cidr
+  project_name   = var.project_name
+  env            = var.env
+  acm_arn        = var.acm_arn
+  zone_id        = var.zone_id
 
   subnets          = module.vpc.app_subnets_ids
   vpc_id           = module.vpc.vpc_id
   target_group_arn = module.backend.target_group_arn
+
 }
 
