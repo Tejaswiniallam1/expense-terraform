@@ -46,3 +46,5 @@ backend_instance_type     = "t3.small"
 frontend_app_port          = 80
 frontend_instance_capacity = 1
 frontend_instance_type     = "t3.small"
+
+
