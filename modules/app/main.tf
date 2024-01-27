@@ -37,6 +37,15 @@ resource "aws_launch_template" "main" {
   image_id               = data.aws_ami.centos8.image_id
   instance_type          = var.instance_type
   vpc_security_group_ids = [aws_security_group.main.id]
+
+  user_data = base64encode(templatefile("${path.module}/userdata.sh", {
+    service_name = var.component
+    env          = var.env
+  }))
+
+  iam_instance_profile {
+    name = aws_iam_instance_profile.main.name
+  }
 }
 
 resource "aws_autoscaling_group" "main" {
@@ -77,7 +86,7 @@ resource "aws_lb_target_group" "main" {
 
 
 resource "aws_iam_role" "main" {
-  name               = "${local.name}-role"
+  name = "${local.name}-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -97,24 +106,24 @@ resource "aws_iam_role" "main" {
     name = "parameter-store"
 
     policy = jsonencode({
-      "Version": "2012-10-17",
-      "Statement": [
+      "Version" : "2012-10-17",
+      "Statement" : [
         {
-          "Sid": "GetParameter",
-          "Effect": "Allow",
-          "Action": [
+          "Sid" : "GetParameter",
+          "Effect" : "Allow",
+          "Action" : [
             "ssm:GetParameterHistory",
             "ssm:GetParametersByPath",
             "ssm:GetParameters",
             "ssm:GetParameter"
           ],
-          "Resource": "arn:aws:ssm:us-east-1:739561048503:parameter/${var.env}.${var.project_name}.${var.component}.*"
+          "Resource" : "arn:aws:ssm:us-east-1:739561048503:parameter/${var.env}.${var.project_name}.${var.component}.*"
         },
         {
-          "Sid": "DescribeAllParameters",
-          "Effect": "Allow",
-          "Action": "ssm:DescribeParameters",
-          "Resource": "*"
+          "Sid" : "DescribeAllParameters",
+          "Effect" : "Allow",
+          "Action" : "ssm:DescribeParameters",
+          "Resource" : "*"
         }
       ]
     })
