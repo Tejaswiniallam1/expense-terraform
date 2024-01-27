@@ -121,6 +121,10 @@ resource "aws_iam_role" "main" {
   }
 }
 
+resource "aws_iam_instance_profile" "main" {
+  name = "${local.name}-role"
+  role = aws_iam_role.main.name
+}
 
 
 
