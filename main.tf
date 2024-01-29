@@ -66,7 +66,8 @@ module "rds" {
 }
 
 module "backend" {
-  source = "./modules/app"
+  depends_on = [module.rds]
+  source     = "./modules/app"
 
   app_port            = var.backend_app_port
   bastion_cidrs       = var.bastion_cidrs
