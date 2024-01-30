@@ -1,10 +1,10 @@
-env           = "dev"
-project_name  = "expense"
-kms_key_id    = "arn:aws:kms:us-east-1:739561048503:key/20f88998-08b8-4757-b797-48516b57b1ef"
-bastion_cidrs = ["172.31.45.221/32"]
+env              = "dev"
+project_name     = "expense"
+kms_key_id       = "arn:aws:kms:us-east-1:739561048503:key/20f88998-08b8-4757-b797-48516b57b1ef"
+bastion_cidrs    = ["172.31.45.221/32"]
 prometheus_cidrs = ["172.31.39.45/32"]
-acm_arn       = "arn:aws:acm:us-east-1:739561048503:certificate/cd6d0623-15f3-489a-aae1-badb324eafe7"
-zone_id       = "Z09059901XRPHNYMGLMJ4"
+acm_arn          = "arn:aws:acm:us-east-1:739561048503:certificate/cd6d0623-15f3-489a-aae1-badb324eafe7"
+zone_id          = "Z09059901XRPHNYMGLMJ4"
 
 #vpc = {
 #  main = {
