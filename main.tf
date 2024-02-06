@@ -79,7 +79,7 @@ module "backend" {
   sg_cidr_blocks      = var.app_subnets_cidr
   vpc_id              = module.vpc.vpc_id
   vpc_zone_identifier = module.vpc.app_subnets_ids
-  parameters          = ["arn:aws:ssm:us-east-1:739561048503:parameter/${var.env}.${var.project_name}.rds.*"]
+  parameters          = ["arn:aws:ssm:us-east-1:739561048503:parameter/${var.env}.${var.project_name}.rds.*", "arn:aws:ssm:us-east-1:739561048503:parameter/newrelic.*"]
   kms                 = var.kms_key_id
   prometheus_cidrs    = var.prometheus_cidrs
 }
@@ -97,7 +97,7 @@ module "frontend" {
   sg_cidr_blocks      = var.public_subnets_cidr
   vpc_id              = module.vpc.vpc_id
   vpc_zone_identifier = module.vpc.web_subnets_ids
-  parameters          = []
+  parameters          = ["arn:aws:ssm:us-east-1:739561048503:parameter/newrelic.*"]
   kms                 = var.kms_key_id
   prometheus_cidrs    = var.prometheus_cidrs
 }
