@@ -28,9 +28,6 @@ pipelines:
 
     - QA:
         fetch_materials: true
-        approval:
-          type: manual
-          allow_only_on_success: true
         jobs:
           deployment:
             timeout: 0
@@ -44,9 +41,6 @@ pipelines:
 
     - UAT:
         fetch_materials: true
-        approval:
-          type: manual
-          allow_only_on_success: true
         jobs:
           deployment:
             timeout: 0
@@ -59,16 +53,15 @@ pipelines:
 
     - PROD:
         fetch_materials: true
-        approval:
-          type: manual
-          allow_only_on_success: true
         jobs:
           deployment:
             timeout: 0
             tasks:
             - exec:
-                command: ls
-                arguments:
-                  - -l
-                  - -A
+                command: terraform
+                arguments: ["init", "-backend-config=env-prod/state.tfvars"]
+
+            - exec:
+                command: terraform
+                arguments: ["apply", "-var-file=env-prod/main.tfvars", "-auto-approve"]
 
