@@ -55,16 +55,16 @@ resource "aws_launch_template" "main" {
     name = aws_iam_instance_profile.main.name
   }
 
-  # block_device_mappings {
-  #   device_name = "/dev/sda1"
-  #
-  #   ebs {
-  #     volume_size           = 10
-  #     encrypted             = true
-  #     kms_key_id            = var.kms
-  #     delete_on_termination = true
-  #   }
-  # }
+  block_device_mappings {
+    device_name = "/dev/sda1"
+
+    ebs {
+      volume_size           = 10
+      encrypted             = true
+      kms_key_id            = var.kms
+      delete_on_termination = true
+    }
+  }
 
 }
 
@@ -146,7 +146,7 @@ resource "aws_iam_role" "main" {
           ],
           "Resource" : concat([
             "arn:aws:ssm:us-east-1:390403869414:parameter/dev.expense.frontend.backend_endpoint",
-            "arn:aws:ssm:us-east-1:739561048503:parameter/${var.env}.${var.project_name}.${var.component}.*",
+            "arn:aws:ssm:us-east-1:390403869414:parameter/${var.env}.${var.project_name}.${var.component}.*",
           ], var.parameters)
         },
         {
