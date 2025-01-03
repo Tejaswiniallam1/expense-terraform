@@ -14,6 +14,9 @@ pipelines:
     stages:
     - DEV:
         fetch_materials: true
+        approval:
+          type: manual
+
         jobs:
           deployment:
             timeout: 0
@@ -28,6 +31,8 @@ pipelines:
 
     - QA:
         fetch_materials: true
+        approval:
+          type: manual
         jobs:
           deployment:
             timeout: 0
@@ -41,6 +46,8 @@ pipelines:
 
     - UAT:
         fetch_materials: true
+        approval:
+          type: manual
         jobs:
           deployment:
             timeout: 0
@@ -53,6 +60,8 @@ pipelines:
 
     - PROD:
         fetch_materials: true
+        approval:
+          type: manual
         jobs:
           deployment:
             timeout: 0
