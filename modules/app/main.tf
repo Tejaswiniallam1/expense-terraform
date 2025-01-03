@@ -11,13 +11,13 @@ resource "aws_security_group" "main" {
     description = "SSH"
   }
 
-  ingress {
-    from_port   = 9100
-    to_port     = 9100
-    protocol    = "tcp"
-    cidr_blocks = var.prometheus_cidrs
-    description = "PROMETHEUS"
-  }
+  # ingress {
+  #   from_port   = 9100
+  #   to_port     = 9100
+  #   protocol    = "tcp"
+  #   cidr_blocks = var.prometheus_cidrs
+  #   description = "PROMETHEUS"
+  # }
 
   ingress {
     from_port   = var.app_port
@@ -51,20 +51,20 @@ resource "aws_launch_template" "main" {
     env          = var.env
   }))
 
-  iam_instance_profile {
-    name = aws_iam_instance_profile.main.name
-  }
+  # iam_instance_profile {
+  #   name = aws_iam_instance_profile.main.name
+  # }
 
-  block_device_mappings {
-    device_name = "/dev/sda1"
-
-    ebs {
-      volume_size           = 10
-      encrypted             = true
-      kms_key_id            = var.kms
-      delete_on_termination = true
-    }
-  }
+  # block_device_mappings {
+  #   device_name = "/dev/sda1"
+  #
+  #   ebs {
+  #     volume_size           = 10
+  #     encrypted             = true
+  #     kms_key_id            = var.kms
+  #     delete_on_termination = true
+  #   }
+  # }
 
 }
 
@@ -111,59 +111,59 @@ resource "aws_lb_target_group" "main" {
 }
 
 
-resource "aws_iam_role" "main" {
-  name = "${local.name}-role"
+# resource "aws_iam_role" "main" {
+#   name = "${local.name}-role"
+#
+#   assume_role_policy = jsonencode({
+#     Version = "2012-10-17"
+#     Statement = [
+#       {
+#         Action = "sts:AssumeRole"
+#         Effect = "Allow"
+#         Sid    = ""
+#         Principal = {
+#           Service = "ec2.amazonaws.com"
+#         }
+#       },
+#     ]
+#   })
+#
+#   inline_policy {
+#     name = "parameter-store"
+#
+#     policy = jsonencode({
+#       "Version" : "2012-10-17",
+#       "Statement" : [
+#         {
+#           "Sid" : "GetParameter",
+#           "Effect" : "Allow",
+#           "Action" : [
+#             "kms:Decrypt",
+#             "ssm:GetParameterHistory",
+#             "ssm:GetParametersByPath",
+#             "ssm:GetParameters",
+#             "ssm:GetParameter"
+#           ],
+#           "Resource" : concat([
+#             "arn:aws:kms:us-east-1:739561048503:key/20f88998-08b8-4757-b797-48516b57b1ef",
+#             "arn:aws:ssm:us-east-1:739561048503:parameter/${var.env}.${var.project_name}.${var.component}.*",
+#           ], var.parameters)
+#         },
+#         {
+#           "Sid" : "DescribeAllParameters",
+#           "Effect" : "Allow",
+#           "Action" : "ssm:DescribeParameters",
+#           "Resource" : "*"
+#         }
+#       ]
+#     })
+#   }
+# }
 
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = "sts:AssumeRole"
-        Effect = "Allow"
-        Sid    = ""
-        Principal = {
-          Service = "ec2.amazonaws.com"
-        }
-      },
-    ]
-  })
-
-  inline_policy {
-    name = "parameter-store"
-
-    policy = jsonencode({
-      "Version" : "2012-10-17",
-      "Statement" : [
-        {
-          "Sid" : "GetParameter",
-          "Effect" : "Allow",
-          "Action" : [
-            "kms:Decrypt",
-            "ssm:GetParameterHistory",
-            "ssm:GetParametersByPath",
-            "ssm:GetParameters",
-            "ssm:GetParameter"
-          ],
-          "Resource" : concat([
-            "arn:aws:kms:us-east-1:739561048503:key/20f88998-08b8-4757-b797-48516b57b1ef",
-            "arn:aws:ssm:us-east-1:739561048503:parameter/${var.env}.${var.project_name}.${var.component}.*",
-          ], var.parameters)
-        },
-        {
-          "Sid" : "DescribeAllParameters",
-          "Effect" : "Allow",
-          "Action" : "ssm:DescribeParameters",
-          "Resource" : "*"
-        }
-      ]
-    })
-  }
-}
-
-resource "aws_iam_instance_profile" "main" {
-  name = "${local.name}-role"
-  role = aws_iam_role.main.name
-}
+# resource "aws_iam_instance_profile" "main" {
+#   name = "${local.name}-role"
+#   role = aws_iam_role.main.name
+# }
 
 
 

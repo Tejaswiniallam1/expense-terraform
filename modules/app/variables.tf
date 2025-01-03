@@ -10,4 +10,4 @@ variable "project_name" {}
 variable "vpc_zone_identifier" {}
 variable "parameters" {}
 variable "kms" {}
-variable "prometheus_cidrs" {}
+# variable "prometheus_cidrs" {}
